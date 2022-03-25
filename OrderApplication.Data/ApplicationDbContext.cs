@@ -6,6 +6,7 @@ namespace OrderApplication.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        //identitiy için gerekli paket yüklemeleri yapıldı.
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

@@ -12,11 +12,11 @@ namespace OrderApplication.Entities
     {
         public Cart()
         {
-            Count = 1;
+            Count = 1;//Başlangıç değeri ataması
         }
         [Key]
         public int Id { get; set; }
-        public string AppUserId { get; set; }
+        public string AppUserId { get; set; } //identity içerisindeki user id veri tipi string olduğundan id string alındı.
         public int ProductId { get; set; }
         public int Count { get; set; }
         public double Price { get; set; }

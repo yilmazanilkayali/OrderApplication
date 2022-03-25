@@ -45,22 +45,36 @@ namespace OrderApplication.Data.Repository
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = _dbSet.AsQueryable(); //_dbSet.AsQueryable();                             //DIP prensibine göre düzenlenecek
+            if (filter != null)
+            {
+                query = query.Where(filter);//Expression func tanımını where sorgusu içerisine yazdık. (x=>x.id==1)
+            }
+            if (includeProperties != null)
+            {
+                //"Product , Order..."
+                //include ediilecek tablolar split ile birbirinden ayırıldı.
+                foreach (var item in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(item);
+                }
+            }
+            return query.FirstOrDefault();
         }
 
         public void Remove(T entity)
         {
-            throw new NotImplementedException();
+           _dbSet.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+           _dbSet.RemoveRange(entities);
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+           _dbSet.Update(entity);
         }
     }
 }
