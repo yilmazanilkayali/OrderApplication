@@ -1,8 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OrderApplication.Data;
+using OrderApplication.Data.Repository;
+using OrderApplication.Data.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//DI container tanýmlanarak soyut nesneler somut nesnelere dönüþtürüldü.
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
