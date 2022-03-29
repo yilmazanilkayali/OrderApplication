@@ -104,7 +104,13 @@ namespace OrderApplication.Areas.Identity.Pages.Account
 
 
         public async Task OnGetAsync(string returnUrl = null)
-        {
+        {//Metod async olduğundan getawaiter ve get result asenkron bekleme işlemleri için kullanıldı.
+            if (!_roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+            {//Admin yok ise admin ve customer oluşturur.
+                _roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole("Customer")).GetAwaiter().GetResult();
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
