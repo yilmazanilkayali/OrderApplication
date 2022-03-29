@@ -6,7 +6,7 @@ using OrderApplication.Data.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//DI container tanýmlanarak soyut nesneler somut nesnelere dönüþtürüldü.
+//DI container tanï¿½mlanarak soyut nesneler somut nesnelere dï¿½nï¿½ï¿½tï¿½rï¿½ldï¿½.
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -17,8 +17,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//add defaulttokenproviders telefon no mail gibideÄŸiÅŸiklerde doÄŸrulama belirtesi oluÅŸturmak iÃ§in kullanÄ±ldÄ±.
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 

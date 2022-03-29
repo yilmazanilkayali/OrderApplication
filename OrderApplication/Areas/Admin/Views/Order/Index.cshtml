@@ -1,0 +1,53 @@
+﻿@using OrderApplication.Entities
+@model IEnumerable<OrderProduct>
+
+    <div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2>Ürün Listesi</h2>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Product" asp-action="Crup" class="btn btn-primary ">
+                <span>Yeni Ürün Ekle</span>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-striped my-2">
+            <thead>
+                <tr>
+                    <th>
+                        Sipariş ID
+                    </th>
+                     <th>
+                        Ad Soyad
+                    </th>
+                     <th>
+                        Fiayt
+                    </th>
+                    <th >
+                        İşlemler
+                    </th>
+                </tr>
+            </thead>
+            <tbody>                
+                @foreach (var orderProduct in Model)
+                {
+                    <tr>
+                        <td class="pt-4">@orderProduct.Id</td>
+                        <td class="pt-4">@orderProduct.Name</td>
+                        <td><img src = "@orderProduct.OrderPrice" width=80px /></td> 
+                        <td>
+                            <a asp-controller="Product" asp-action="Crup" asp-route-id="@orderProduct.Id" class="btn btn-primary">
+                                Güncelle
+                            </a>
+                             <a onclick="return confirm('Silmek İstediğinize Emin Misiniz?');" asp-controller="Product" asp-action="Delete" asp-route-id="@orderProduct.Id" class="btn btn-danger">
+                                Sil
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
