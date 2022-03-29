@@ -69,6 +69,7 @@ namespace OrderApplication.Areas.Admin.Controllers
             string wwwRootPath = _webHostEnvironment.WebRootPath;
             if (file!=null)
             {
+                //reesim ekleme işlemini get thumbnail kullanarak boyutlandırarak yükle..
                 string fileName= Guid.NewGuid().ToString();
                 var uploadRoot = Path.Combine(wwwRootPath, @"img\products");
                 var extension = Path.GetExtension(file.FileName);
