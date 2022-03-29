@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using OrderApplication.Data.Repository;
+using OrderApplication.Data.Repository.IRepository;
+using OrderApplication.Entities;
 
 namespace OrderApplication.Areas.Identity.Pages.Account
 {
@@ -29,6 +32,7 @@ namespace OrderApplication.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly RoleManager<IdentityRole> _roleManager;
         public RegisterModel(
@@ -36,7 +40,8 @@ namespace OrderApplication.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,RoleManager<IdentityRole> roleManager
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager
             )
         {
             _roleManager= roleManager;
@@ -100,6 +105,12 @@ namespace OrderApplication.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            //appuser modeli propları eklendi
+            [Required]
+            public string FullName { get; set; }
+            public string Address { get; set; }
+            public string PostalCode { get; set; }
+            public string CellPhone { get; set; }
         }
 
 
@@ -125,7 +136,15 @@ namespace OrderApplication.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                //kayıt için post yaparken alınacak bilgiler
+                user.FullName = Input.Email;
+                user.Address = Input.Email;
+                user.PostalCode = Input.PostalCode;
+                user.CellPhone = Input.CellPhone;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                AppUser appUser = _unitOfWork.AppUser.GetFirstOrDefault(x => x.Email == user.Email);
+                _userManager.AddToRoleAsync(appUser,"Customer").GetAwaiter().GetResult();//default kayıt rolü girildi.
 
                 if (result.Succeeded)
                 {
@@ -163,11 +182,11 @@ namespace OrderApplication.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
-        {
+        private AppUser CreateUser()
+        {//kendi appuserimiza göre düzenlendi
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<AppUser>();
             }
             catch
             {
