@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using OrderApplication.Data;
 using OrderApplication.Data.Repository;
 using OrderApplication.Data.Repository.IRepository;
+using OrderApplicationMVC.SharedTools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-
+builder.Services.AddSingleton<IEmailSender,EmailSender>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
