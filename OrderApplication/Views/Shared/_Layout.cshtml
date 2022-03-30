@@ -19,17 +19,37 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Anasayfa</a>
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Index">Main Page</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Kategori</a>
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="">Cart</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Ürünler</a>
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Order">Order</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Order" asp-action="Index">Siparişler</a>
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle"
+                               data-bs-toggle="dropdown"
+                               href="#" role="button"
+                               aria-hashpopup="true"
+                               aria-expanded="false">
+                               Admin Menu
+                            </a>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Main Page</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a>
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Create">Add Category</a>
+                             <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Products</a>
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Crup">Add Product</a>
+                             <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Add New User</a>
+                            </div>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
