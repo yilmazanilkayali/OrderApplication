@@ -17,7 +17,7 @@ namespace OrderApplication.Areas.Customer.Controllers
         //Sisteme giriş yapan kullanıcının sepetteki ürünlerini listeler.
         public IActionResult Index()
         {
-             var claimsIdetity = (ClaimsIdentity)User.Identity;
+            var claimsIdetity = (ClaimsIdentity)User.Identity;
             var claim =claimsIdetity.FindFirst(ClaimTypes.NameIdentifier);
 
             CartVM = new CartVM()
@@ -29,6 +29,30 @@ namespace OrderApplication.Areas.Customer.Controllers
             {
                 cart.Price = cart.Product.Price * cart.Count; 
                 CartVM.OrderProduct.OrderPrice += cart.Price ;
+
+            }
+            return View(CartVM);
+        }
+        public IActionResult Order()
+        {
+            var claimsIdetity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdetity.FindFirst(ClaimTypes.NameIdentifier);
+
+            CartVM = new CartVM()
+            {
+                CartList = _unitOfWork.Cart.GetAll(p => p.AppUserId == claim.Value, includeProperties: "Product"),
+                OrderProduct = new()
+            };
+            CartVM.OrderProduct.AppUser = _unitOfWork.AppUser.GetFirstOrDefault(u => u.Id == claim.Value);
+            CartVM.OrderProduct.Name = CartVM.OrderProduct.Name;
+            CartVM.OrderProduct.CellPhone = CartVM.OrderProduct.AppUser.CellPhone;
+            CartVM.OrderProduct.Address = CartVM.OrderProduct.AppUser.Address;
+            CartVM.OrderProduct.PostalCode = CartVM.OrderProduct.AppUser.PostalCode;
+
+            foreach (var cart in CartVM.CartList)
+            {
+                cart.Price = cart.Product.Price * cart.Count;
+                CartVM.OrderProduct.OrderPrice += cart.Price;
 
             }
             return View(CartVM);
