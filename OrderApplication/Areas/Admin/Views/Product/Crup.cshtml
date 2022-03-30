@@ -1,6 +1,6 @@
 ﻿@model OrderApplication.Entities.ViewModels.ProductVM
 
-<h2>@(Model.Product.Id <= 0 ? "Ekle" : "Güncelle")</h2>
+<h2>@(Model.Product.Id <= 0 ? "Add" : "Edit")</h2>
 
 <form method="post" enctype="multipart/form-data">  
  <input asp-for="Product.Id" type="hidden" />
@@ -37,7 +37,7 @@
     <div class="row my-1">
         <label asp-for="Product.CategoryId"></label>
         <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control">
-            <options disabled selected>--Lütfen Bir Kategori Seçiniz--</options>
+            <options disabled selected>--Please Select a Category--</options>
         </select>
     </div>
     <div class="row my-1">
@@ -45,6 +45,6 @@
         <input type="file" id="" name="file" accept="image/*" class="form-control"/>
     </div>
 
-    <button type="submit" class="btn btn-primary">@(Model.Product.Id <= 0 ? "Ekle" : "Güncelle")</button>
+    <button type="submit" class="btn btn-primary">@(Model.Product.Id <= 0 ? "Add" : "Edit")</button>
 
 </form>
