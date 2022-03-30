@@ -32,6 +32,7 @@ namespace OrderApplication.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -41,9 +42,11 @@ namespace OrderApplication.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            IUnitOfWork unitOfWork
             )
         {
+            _unitOfWork = unitOfWork;
             _roleManager= roleManager;
             _userManager = userManager;
             _userStore = userStore;
@@ -144,6 +147,7 @@ namespace OrderApplication.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 AppUser appUser = _unitOfWork.AppUser.GetFirstOrDefault(x => x.Email == user.Email);
+
                 _userManager.AddToRoleAsync(appUser,"Customer").GetAwaiter().GetResult();//default kayıt rolü girildi.
 
                 if (result.Succeeded)
