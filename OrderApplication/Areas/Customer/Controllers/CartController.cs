@@ -10,6 +10,7 @@ namespace OrderApplication.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private int maxCount = 10;
         public CartVM CartVM { get; set; }
         public CartController(IUnitOfWork unitOfWork)
         {
@@ -111,20 +112,28 @@ namespace OrderApplication.Areas.Customer.Controllers
         public IActionResult Increase(int cartId)
         {
             var cart = _unitOfWork.Cart.GetFirstOrDefault(x => x.Id == cartId);
-            cart.Count += 1;
-            _unitOfWork.Save();
+            if (cart.Count < maxCount)
+            {
+                cart.Count += 1;
+                _unitOfWork.Save();
+            }
+            
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Decrease(int cartId)
         {
             var cart = _unitOfWork.Cart.GetFirstOrDefault(x => x.Id == cartId);
-            if (cart.Count > 0) 
+            if (cart.Count > 1) 
             {
 
                 cart.Count -= 1;
-                _unitOfWork.Save();
+                
             }
-            
+            else
+            {
+                _unitOfWork.Cart.Remove(cart);
+            }
+            _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
     }
