@@ -140,8 +140,8 @@ namespace OrderApplication.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 //kayıt için post yaparken alınacak bilgiler
-                user.FullName = Input.Email;
-                user.Address = Input.Email;
+                user.FullName = Input.FullName;
+                user.Address = Input.Address;
                 user.PostalCode = Input.PostalCode;
                 user.CellPhone = Input.CellPhone;
 
