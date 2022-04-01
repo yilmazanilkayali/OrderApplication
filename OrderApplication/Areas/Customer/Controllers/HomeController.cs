@@ -9,6 +9,8 @@ namespace OrderApplication.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private int maxCount = 10;
+
         public HomeController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -39,18 +41,21 @@ namespace OrderApplication.Areas.Customer.Controllers
 
             Cart cardDb = _unitOfWork.Cart.GetFirstOrDefault(p => p.AppUserId == claim.Value && p.ProductId == cart.ProductId);
 
-            _unitOfWork.Cart.Add(cart);
+           
+
+            if (cardDb == null )
+            {
+
+                //kaydet sesionda sepeti ürün adedini sakla
+                _unitOfWork.Cart.Add(cart);
+            }
+            else if(cart.Count < maxCount  && cardDb.Count < maxCount)
+            {
+                //countu gelen kadar arttır,kaydet
+                cardDb.Count += cart.Count; 
+            }
             _unitOfWork.Save();
 
-            //if (cardDb == null)
-            //{
-                
-            //    //kaydet sesionda sepeti ürün adedini sakla
-            //}
-            //else
-            //{
-            //    //countu gelen kadar arttır,kaydet
-            //}
             return RedirectToAction("Index");
         }
     }
