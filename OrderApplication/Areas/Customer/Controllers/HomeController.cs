@@ -47,14 +47,24 @@ namespace OrderApplication.Areas.Customer.Controllers
             {
 
                 //kaydet sesionda sepeti ürün adedini sakla
+                //cartcount sorgusu her seferinde tekrar yapılmaması için if içerisinde kullanıldı bu sebeple save metodu 2 kez çağırıldı.
                 _unitOfWork.Cart.Add(cart);
+                _unitOfWork.Save();
+                int cartCount = _unitOfWork.Cart.GetAll(u => u.AppUserId == claim.Value).ToList().Count();
+                HttpContext.Session.SetInt32("SessionCartCount", cartCount);
+
+
             }
             else if(cart.Count < maxCount  && cardDb.Count < maxCount)
             {
                 //countu gelen kadar arttır,kaydet
-                cardDb.Count += cart.Count; 
+                cardDb.Count += cart.Count;
+                _unitOfWork.Save();
+
             }
-            _unitOfWork.Save();
+
+
+
 
             return RedirectToAction("Index");
         }
