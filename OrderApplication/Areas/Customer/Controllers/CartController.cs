@@ -123,7 +123,7 @@ namespace OrderApplication.Areas.Customer.Controllers
         public IActionResult Decrease(int cartId)
         {
             var cart = _unitOfWork.Cart.GetFirstOrDefault(x => x.Id == cartId);
-            if (cart.Count > 1) 
+            if (cart.Count > 1) //ürünün kaç edt olduğu
             {
 
                 cart.Count -= 1;
@@ -132,6 +132,8 @@ namespace OrderApplication.Areas.Customer.Controllers
             else
             {
                 _unitOfWork.Cart.Remove(cart);
+                var cartCount = _unitOfWork.Cart.GetAll(u => u.AppUserId == cart.AppUserId).ToList().Count() - 1; //sepetteki satış sayısı
+                HttpContext.Session.SetInt32("SessionCartCount",cartCount);
             }
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
