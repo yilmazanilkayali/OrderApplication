@@ -28,6 +28,15 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
 
+//Session ile ilgili servis tanımlamaları
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(120);
+    options.Cookie.HttpOnly = true;
+});
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,7 +58,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
