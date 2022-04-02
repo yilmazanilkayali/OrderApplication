@@ -101,9 +101,9 @@ namespace OrderApplication.Areas.Customer.Controllers
                 _unitOfWork.OrderDetails.Add(orderDetails);
                 _unitOfWork.Save();
             }
-            List<Cart> Cars = _unitOfWork.Cart.GetAll(u => u.AppUserId == CartVM.OrderProduct.AppUserId).ToList();
+            List<Cart> Carts = _unitOfWork.Cart.GetAll(u => u.AppUserId == CartVM.OrderProduct.AppUserId).ToList();
 
-            _unitOfWork.Cart.RemoveRange(Cars);
+            _unitOfWork.Cart.RemoveRange(Carts);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index),"Home",new {area="Customer"});

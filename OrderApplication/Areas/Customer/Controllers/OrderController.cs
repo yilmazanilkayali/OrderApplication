@@ -5,6 +5,7 @@ using System.Security.Claims;
 
 namespace OrderApplication.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -14,11 +15,11 @@ namespace OrderApplication.Areas.Customer.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<OrderProduct> orderProducts;
+            IEnumerable<OrderProduct> orderProduct;
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            orderProducts = _unitOfWork.OrderProduct.GetAll(u => u.AppUserId == claim.Value);
-            return View();
+            orderProduct = _unitOfWork.OrderProduct.GetAll(u => u.AppUserId == claim.Value);
+            return View(orderProduct);
         }
     }
 }

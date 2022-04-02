@@ -15,7 +15,7 @@ namespace OrderApplication.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var orderList = _unitOfWrok.OrderProduct.GetAll(x => x.OrderStatus == "Teslim Edildi");
+            var orderList = _unitOfWrok.OrderProduct.GetAll(x => x.OrderStatus != "Delivered");
             return View(orderList);
         }
     }
