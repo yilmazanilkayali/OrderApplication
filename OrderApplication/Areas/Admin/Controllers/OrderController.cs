@@ -48,7 +48,20 @@ namespace OrderApplication.Areas.Admin.Controllers
             orderProduct.OrderStatus = orderStatusCancel;
             _unitOfWrok.OrderProduct.Update(orderProduct);
             _unitOfWrok.Save();
-            return RedirectToAction("Index","Order", new { Id = orderVM.OrderProduct.Id });
+            return RedirectToAction("Details", "Order", new { Id = orderVM.OrderProduct.Id });
+        }
+        [HttpPost]
+        public IActionResult UpdateOrderDetails(OrderVM orderVM)
+        {
+            var orderProduct = _unitOfWrok.OrderProduct.GetFirstOrDefault(o => o.Id == orderVM.OrderProduct.Id);
+
+            orderProduct.Address = orderVM.OrderProduct.Address;
+            orderProduct.PostalCode = orderVM.OrderProduct.PostalCode;
+            orderProduct.CellPhone = orderVM.OrderProduct.CellPhone;
+            orderProduct.Name = orderVM.OrderProduct.Name;
+            _unitOfWrok.OrderProduct.Update(orderProduct);
+            _unitOfWrok.Save();
+            return RedirectToAction("Details", "Order", new { Id = orderVM.OrderProduct.Id });
         }
     }
 }
