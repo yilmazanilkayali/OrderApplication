@@ -18,12 +18,12 @@ namespace OrderApplication.Areas.Admin.Controllers
             var orderList = _unitOfWrok.OrderProduct.GetAll(x => x.OrderStatus != "Delivered");
             return View(orderList);
         }
-        public IActionResult Details(int orderId)
+        public IActionResult Details(int Id)
         {
             OrderVM = new OrderVM()
             {
-                OrderProduct = _unitOfWrok.OrderProduct.GetFirstOrDefault(u => u.Id == orderId,includeProperties:"AppUser"),
-                OrderDetails = _unitOfWrok.OrderDetails.GetAll(d => d.OrderProductId == orderId,includeProperties:"Product")
+                OrderProduct = _unitOfWrok.OrderProduct.GetFirstOrDefault(u => u.Id == Id,includeProperties:"AppUser"),
+                OrderDetails = _unitOfWrok.OrderDetails.GetAll(d => d.OrderProductId == Id,includeProperties:"Product")
             };
             return View(OrderVM);
         }
