@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrderApplication.Data.Repository.IRepository;
 using OrderApplication.Entities;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 namespace OrderApplication.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -33,7 +35,7 @@ namespace OrderApplication.Areas.Customer.Controllers
             _unitOfWork.OrderProduct.Update(order);
             _unitOfWork.Save();
 
-            return View(nameof (Index));
+            return RedirectToAction(nameof (Index));
         }
     }
 }

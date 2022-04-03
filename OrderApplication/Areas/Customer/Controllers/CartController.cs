@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrderApplication.Data.Repository.IRepository;
 using OrderApplication.Entities;
 using OrderApplication.Entities.ViewModels;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 namespace OrderApplication.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

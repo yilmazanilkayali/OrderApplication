@@ -1,18 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrderApplication.Data.Repository.IRepository;
 using OrderApplication.Entities;
 
 namespace OrderApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
+        [Authorize(Roles = "Admin")]
+
     public class CategoryController : Controller
     {
+        
+
         private readonly IUnitOfWork _unitOfWork;
         public CategoryController(IUnitOfWork unitOfWork)
         {
             //DIP
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
             IEnumerable<Category> categoryList = _unitOfWork.Category.GetAll();
