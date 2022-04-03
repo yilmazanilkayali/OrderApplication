@@ -24,6 +24,9 @@
                         Price
                     </th>
                     <th >
+                        Status
+                    </th>
+                    <th >
                         
                     </th>
                 </tr>
@@ -35,6 +38,7 @@
                         <td class="pt-4">@orderProduct.Id</td>
                         <td class="pt-4">@orderProduct.Name</td>
                         <td classs="pt-4">@orderProduct.OrderPrice</td> 
+                        <td class="pt-4">@orderProduct.OrderStatus</td>
                         <td>
                             <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@orderProduct.Id" class="btn btn-primary">
                                 Details
