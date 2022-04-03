@@ -21,5 +21,19 @@ namespace OrderApplication.Areas.Customer.Controllers
             orderProduct = _unitOfWork.OrderProduct.GetAll(u => u.AppUserId == claim.Value);
             return View(orderProduct);
         }
+       
+        public IActionResult CancelOrder(int id)
+        {
+            var order = _unitOfWork.OrderProduct.GetFirstOrDefault(x => x.Id == id);
+            if (order.OrderStatus == "Ordered")
+            {
+                order.OrderStatus = "Cancel";
+            }
+
+            _unitOfWork.OrderProduct.Update(order);
+            _unitOfWork.Save();
+
+            return View(nameof (Index));
+        }
     }
 }
