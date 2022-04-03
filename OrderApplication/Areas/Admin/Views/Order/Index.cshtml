@@ -4,7 +4,7 @@
     <div class="container">
     <div class="row">
         <div class="col-6">
-            <h2>Ürün Listesi</h2>
+            <h2>Order List</h2>
         </div>
         <div class="col-6">
           
@@ -34,7 +34,7 @@
                     <tr>
                         <td class="pt-4">@orderProduct.Id</td>
                         <td class="pt-4">@orderProduct.Name</td>
-                        <td><img src = "@orderProduct.OrderPrice" width=80px /></td> 
+                        <td classs="pt-4">@orderProduct.OrderPrice</td> 
                         <td>
                             <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@orderProduct.Id" class="btn btn-primary">
                                 Details

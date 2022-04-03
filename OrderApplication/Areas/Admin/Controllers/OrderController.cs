@@ -9,6 +9,8 @@ namespace OrderApplication.Areas.Admin.Controllers
     {
         private readonly IUnitOfWork _unitOfWrok;
         private string orderStatusDelivered = "Delivered";
+        private string orderStatusCancel = "Cancel";
+
         public OrderVM OrderVM { get; set; }
         public OrderController(IUnitOfWork unitOfWork)
         {
@@ -38,6 +40,15 @@ namespace OrderApplication.Areas.Admin.Controllers
             _unitOfWrok.Save();
 
             return RedirectToAction("Details","Order",new {Id = orderVM.OrderProduct.Id});
+        }
+        [HttpPost]
+        public IActionResult CancelOrder(OrderVM orderVM)
+        {
+            var orderProduct = _unitOfWrok.OrderProduct.GetFirstOrDefault(o => o.Id == orderVM.OrderProduct.Id);
+            orderProduct.OrderStatus = orderStatusCancel;
+            _unitOfWrok.OrderProduct.Update(orderProduct);
+            _unitOfWrok.Save();
+            return RedirectToAction("Index","Order", new { Id = orderVM.OrderProduct.Id });
         }
     }
 }

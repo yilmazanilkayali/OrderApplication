@@ -105,8 +105,7 @@
 								{
 									<input type="submit" asp-action="Delivered" class="btn btn-primary form-control my-1" value="Delivered Order" />
 								}			
-								@if (Model.OrderProduct.OrderStatus != "Cancel" &&
-								Model.OrderProduct.OrderStatus!="Delivered")
+								@if (Model.OrderProduct.OrderStatus!="Delivered")
 								{
 									<input type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1" value="Cancel Order" />
 								}							
