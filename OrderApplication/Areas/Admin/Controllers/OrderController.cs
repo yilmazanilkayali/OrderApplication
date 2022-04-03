@@ -8,6 +8,7 @@ namespace OrderApplication.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWrok;
+        private string orderStatusDelivered = "Delivered";
         public OrderVM OrderVM { get; set; }
         public OrderController(IUnitOfWork unitOfWork)
         {
@@ -26,6 +27,17 @@ namespace OrderApplication.Areas.Admin.Controllers
                 OrderDetails = _unitOfWrok.OrderDetails.GetAll(d => d.OrderProductId == Id,includeProperties:"Product")
             };
             return View(OrderVM);
+        }
+        [HttpPost]
+        public IActionResult Delivered(OrderVM orderVM)
+        {
+            var orderProduct = _unitOfWrok.OrderProduct.GetFirstOrDefault(o => o.Id == orderVM.OrderProduct.Id);
+            orderProduct.OrderStatus = orderStatusDelivered;
+
+            _unitOfWrok.OrderProduct.Update(orderProduct);
+            _unitOfWrok.Save();
+
+            return RedirectToAction("Details","Order",new {Id = orderVM.OrderProduct.Id});
         }
     }
 }
