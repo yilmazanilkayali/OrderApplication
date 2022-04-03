@@ -15,5 +15,11 @@ namespace OrderApplication.Data.Repository
         {
             _contex = contex;
         }
+
+        public int IncreaseCount(Cart cart, int count)
+        {
+            cart.Count += count;
+            return cart.Count;
+        }
     }
 }

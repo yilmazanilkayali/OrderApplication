@@ -119,7 +119,7 @@ namespace OrderApplication.Areas.Customer.Controllers
             var cart = _unitOfWork.Cart.GetFirstOrDefault(x => x.Id == cartId);
             if (cart.Count < maxCount)
             {
-                cart.Count += 1;
+                _unitOfWork.Cart.IncreaseCount(cart, 1);
                 _unitOfWork.Save();
             }
             

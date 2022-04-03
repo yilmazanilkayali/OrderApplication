@@ -9,6 +9,6 @@ namespace OrderApplication.Data.Repository.IRepository
 {
     public interface ICartRepository : IRepository<Cart>
     {
-
+        int IncreaseCount(Cart cart, int count);
     }
 }
