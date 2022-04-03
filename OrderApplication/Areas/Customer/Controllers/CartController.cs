@@ -106,6 +106,9 @@ namespace OrderApplication.Areas.Customer.Controllers
             _unitOfWork.Cart.RemoveRange(Carts);
             _unitOfWork.Save();
 
+            var cartCount = _unitOfWork.Cart.GetAll(u => u.AppUserId == claim.Value).ToList().Count() ; //sepetteki satış sayısı
+            HttpContext.Session.SetInt32("SessionCartCount", cartCount);
+
             return RedirectToAction(nameof(Index),"Home",new {area="Customer"});
         }
 
